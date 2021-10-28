@@ -11,27 +11,25 @@ import BankSelector from "../components/BankSelector";
 export default function Home() {
     const [bank, setBank] = useState(null);
     const [errorMessage, setErrorMessage] = useState("");
-    console.log('Home() called and bank is: ', bank);
     const [selectedFile, setSelectedFile] = useState(null);
     const [convertedFile, setConvertedFile] = useState(null);
 
     let transformed = [];
 
-    const handleDrop = (files) => {
-        console.log("dropped file, bank:", bank, setBank)
+    const handleFileDrop = (files) => {
         if (files.length > 0) {
             const file = files[0];
             setSelectedFile(file);
-            console.log(file, file.name);
-            // parseCSV(file);
         }
     }
 
     const parseCSV = (csvFile) => {
-        console.log("About to parseCSV(), bank is:", bank);
+        // Clean up from before
         setConvertedFile(null);
         setErrorMessage("");
         transformed = [];
+
+        // For now, we assume that all CSV files we parse have headers
         Papa.parse(csvFile, {
             header: true,
             worker: true,
@@ -46,16 +44,16 @@ export default function Home() {
     }
 
     const processLines = (results, parser) => {
-        console.log("processLines() called, bank:", bank, setBank);
-        console.log("and in processLines(), results are:", results, results.data);
-
+        // Our formatter function
         const formatLine = bank.value;
+
         try {
             const transformedLine = formatLine(results.data);
 
+            // If something went wrong on this line but we don't want to
+            // error, then just skip the line
             if (transformedLine) {
                 transformed.push(transformedLine);
-                console.log(transformed);
             }
         } catch (e) {
             parser.abort();
@@ -68,21 +66,17 @@ export default function Home() {
         if (transformed.length === 0) {
             return;
         }
+
         setConvertedFile(transformed);
         let csvExport = Papa.unparse(transformed, {
             delimiter: ",",
             worker: true,
             newline: "\n"
         });
-        console.log(csvExport);
 
         downloadContentsAsCsvFile(csvExport);
 
         // window.open(`data:text/csv;charset=utf-8,${csvExport}`)
-    }
-
-    if(selectedFile) {
-        console.log("selectedFile", selectedFile);
     }
 
     return (
@@ -99,7 +93,7 @@ export default function Home() {
 
                 <BankSelector bank={bank} handleBankChange={setBank} />
 
-                <FileDropzone handleDrop={handleDrop} disabled={!bank} filename={selectedFile ? selectedFile.name : null} />
+                <FileDropzone handleDrop={handleFileDrop} disabled={!bank} filename={selectedFile ? selectedFile.name : null} />
 
                 <button onClick={() => parseCSV(selectedFile)} disabled={!bank && !selectedFile}>Convert</button>
 

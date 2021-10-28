@@ -3,7 +3,6 @@ import formatters from "./formatters/formatters";
 
 export default function BankSelector({bank, handleBankChange}) {
     const handleChange = (option, type) => {
-        console.log("selected bank", option, type);
         if (type.action === "select-option") {
             handleBankChange(option);
         }

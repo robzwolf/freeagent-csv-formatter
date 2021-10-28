@@ -1,5 +1,4 @@
 export default function StatementTable({statementData}) {
-    console.log('statementData', statementData)
     return (
         <>
             <table cellSpacing="0">

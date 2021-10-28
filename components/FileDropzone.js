@@ -9,8 +9,6 @@ export function FileDropzone({handleDrop, disabled, filename}) {
         onDrop: handleDrop
     })
 
-    console.log(isDragActive)
-
     return (
         <>
             <div
