@@ -9,7 +9,7 @@ import dayjs from 'dayjs'
  */
 
 
-const starling = row => {
+const starlingFormatter = row => {
     checkForHeaders([
         "Counter Party",
         "Reference",
@@ -30,7 +30,7 @@ const starling = row => {
     ];
 }
 
-const marcus = row => {
+const marcusFormatter = row => {
     checkForHeaders([
         "TransactionDate",
         "Value",
@@ -52,7 +52,7 @@ const marcus = row => {
     ]
 }
 
-const newday = row => {
+const newdayFormatter = row => {
     checkForHeaders([
         "Date",
         "Amount(GBP)",
@@ -75,6 +75,36 @@ const newday = row => {
     ]
 }
 
+const coventrybuildingsocietyFormatter = row => {
+
+    console.log('row:', row);
+
+    checkForHeaders([
+        "Date",
+        " Description",
+        " Money in",
+        " Money out"
+    ], row);
+
+    const formattedDate = tidyWhitespace(row["Date"]);
+    const formattedDescription = tidyWhitespace(row[" Description"]);
+    const formattedAmount = tidyWhitespace(row[" Money in"]) - tidyWhitespace(row[" Money out"]);
+
+    return [
+        formattedDate,
+        formattedAmount,
+        formattedDescription
+    ];
+}
+
+const coventrybuildingsocietyConfigOverride = {
+    beforeFirstChunk: chunk => {
+        // Skip the first two lines
+        const lines = chunk.split("\r\n");
+        return lines.slice(2).join("\r\n");
+    }
+}
+
 
 /*
  * ****************************************************
@@ -84,8 +114,22 @@ const newday = row => {
  */
 
 const formatters = {
-    starling: { prettyName: "Starling Bank", formatter: starling },
-    marcus: { prettyName: "Marcus by Goldman Sachs", formatter: marcus },
-    newday: { prettyName: "NewDay", formatter: newday }
+    starling: {
+        prettyName: "Starling Bank",
+        formatter: starlingFormatter
+    },
+    marcus: {
+        prettyName: "Marcus by Goldman Sachs",
+        formatter: marcusFormatter
+    },
+    newday: {
+        prettyName: "NewDay",
+        formatter: newdayFormatter
+    },
+    coventrybuildingsociety: {
+        prettyName: "Coventry Building Society",
+        formatter: coventrybuildingsocietyFormatter,
+        parserConfigOverride: coventrybuildingsocietyConfigOverride
+    }
 };
 export default formatters;
