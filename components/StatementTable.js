@@ -3,13 +3,15 @@ export default function StatementTable({statementData}) {
     return (
         <>
             <table cellSpacing="0">
-                {statementData.map((row, i) => (
-                    <tr key={i}>
-                        <td className="statement-row-date">{row[0]}</td>
-                        <td className="statement-row-amount">{row[1]}</td>
-                        <td className="statement-row-description">{row[2]}</td>
-                    </tr>
-                ))}
+                <tbody>
+                    {statementData.map((row, i) => (
+                        <tr key={i}>
+                            <td className="statement-row-date">{row[0]}</td>
+                            <td className="statement-row-amount">{row[1]}</td>
+                            <td className="statement-row-description">{row[2]}</td>
+                        </tr>
+                    ))}
+                </tbody>
             </table>
             <style jsx>{`
                 tr:nth-child(odd) {
