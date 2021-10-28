@@ -1,5 +1,5 @@
 import Select from "react-select";
-import formatters from "./formatters/formatters";
+import formatters from "./formatters";
 
 export default function BankSelector({bank, handleBankChange}) {
     const handleChange = (option, type) => {
