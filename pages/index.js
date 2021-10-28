@@ -1,6 +1,8 @@
 import Head from 'next/head'
 import Papa from 'papaparse'
 
+import starling from '../components/formatters/starling'
+
 export default function Home() {
     let transformed = [];
 
@@ -33,23 +35,9 @@ export default function Home() {
     const processLines = (results, parser) => {
         console.log(results, results.data);
 
-        const transformedLine = convertDataToFreeAgentFormat(results.data);
+        const transformedLine = starling(results.data);
         transformed.push(transformedLine);
         console.log(transformed);
-    }
-
-    const convertDataToFreeAgentFormat = (data) => {
-        const formattedCounterParty = format(data["Counter Party"]);
-        const formattedReference = format(data["Reference"]);
-        const formattedType = format(data["Type"]);
-        const formattedSpendingCategory = format(data["Spending Category"]);
-
-        const description = `${formattedCounterParty}//${formattedReference}//${formattedType}//${formattedSpendingCategory}`;
-        return [
-            data["Date"],
-            data["Amount (GBP)"],
-            description
-        ];
     }
 
     const parseCallback = () => {
@@ -74,8 +62,6 @@ export default function Home() {
 
         // window.open(`data:text/csv;charset=utf-8,${csvExport}`)
     }
-
-    const format = (string) => string.trim().replace(/\s\s+/g, ' ');
 
     return (
         <div className="container">
