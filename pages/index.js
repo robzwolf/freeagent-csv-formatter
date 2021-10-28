@@ -4,14 +4,19 @@ import Papa from 'papaparse'
 import {starling, marcus, newday} from '../components/formatters/formatters'
 import {FileDropzone} from "../components/FileDropzone";
 import {downloadContentsAsCsvFile} from '../components/utilities';
+import {useState} from "react";
 
 
 export default function Home() {
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [convertedFile, setConvertedFile] = useState(null);
+
     let transformed = [];
 
     const handleDrop = (files) => {
         if (files.length > 0) {
             const file = files[0];
+            setSelectedFile(file);
             console.log(file, file.name);
             transformed = [];
             parseCSV(file);
@@ -43,6 +48,7 @@ export default function Home() {
     }
 
     const parseCallback = () => {
+        setConvertedFile(transformed);
         let csvExport = Papa.unparse(transformed, {
             delimiter: ",",
             worker: true,
@@ -53,6 +59,10 @@ export default function Home() {
         downloadContentsAsCsvFile(csvExport);
 
         // window.open(`data:text/csv;charset=utf-8,${csvExport}`)
+    }
+
+    if(selectedFile) {
+        console.log("selectedFile", selectedFile);
     }
 
     return (
@@ -70,7 +80,10 @@ export default function Home() {
                 <FileDropzone handleDrop={handleDrop} />
 
                 <p className="description">
-                    Get started by uploading a file.
+                    {selectedFile ?
+                        <span>You selected <code>{selectedFile.name}</code>.</span> :
+                        <span>Get started by uploading a file.</span>
+                    }
                 </p>
 
             </main>
@@ -105,6 +118,15 @@ export default function Home() {
                     flex-direction: column;
                     justify-content: center;
                     align-items: center;
+                }
+                
+                code {
+                    background: #fafafa;
+                    border-radius: 5px;
+                    padding: 0.75rem;
+                    font-size: 1.1rem;
+                    font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
+                    DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
                 }
 
                 footer {
