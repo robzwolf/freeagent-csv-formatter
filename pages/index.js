@@ -45,6 +45,7 @@ export default function Home() {
         console.log(results, results.data);
 
         console.log("processLines() called, bank:", bank, setBank)
+
         const formatLine = bank.value;
         const transformedLine = formatLine(results.data);
 
@@ -55,6 +56,9 @@ export default function Home() {
     }
 
     const parseCallback = () => {
+        if (transformed.length === 0) {
+            return;
+        }
         setConvertedFile(transformed);
         let csvExport = Papa.unparse(transformed, {
             delimiter: ",",
@@ -86,7 +90,7 @@ export default function Home() {
 
                 <BankSelector bank={bank} setBank={setBank} />
 
-                <FileDropzone handleDrop={handleDrop}/>
+                <FileDropzone handleDrop={handleDrop} disabled={!bank} />
 
                 <p className="description">
                     {selectedFile ?

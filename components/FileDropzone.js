@@ -1,9 +1,10 @@
 import {useDropzone} from "react-dropzone";
 import {useCallback} from "react";
 
-export function FileDropzone({handleDrop}) {
+export function FileDropzone({handleDrop, disabled}) {
     const {getRootProps, getInputProps, isDragActive} = useDropzone({
         accept: ".csv",
+        disabled: disabled,
         multiple: false,
         onDrop: handleDrop
     })
@@ -12,7 +13,14 @@ export function FileDropzone({handleDrop}) {
 
     return (
         <>
-            <div {...getRootProps()} className={["dropzone-box", isDragActive ? "dragging" : ""].join(" ")}>
+            <div
+                {...getRootProps()}
+                className={[
+                    "dropzone-box",
+                    isDragActive ? "dragging" : "",
+                    disabled ? 'disabled' : ''
+                ].join(" ")}
+            >
                 <input {...getInputProps()} />
                 {
                     isDragActive ?
@@ -32,13 +40,19 @@ export function FileDropzone({handleDrop}) {
                     transition: all 0.1s;
                 }
                 
-                .dropzone-box:hover,
-                .dropzone-box:focus {
+                .dropzone-box.disabled {
+                    cursor: not-allowed;
+                    background: #5a6266;
+                    color: #98a1a4;
+                }
+                
+                .dropzone-box:hover:not(.disabled),
+                .dropzone-box:focus:not(.disabled) {
                     background: var(--fcf-light-blue);
                 }
                 
-                .dropzone-box:active,
-                .dropzone-box.dragging {
+                .dropzone-box:active:not(.disabled),
+                .dropzone-box.dragging:not(.disabled) {
                     background: var(--fcf-bright-blue);
                     border-color: var(--fcf-pale-blue);
                 }
@@ -56,8 +70,8 @@ export function FileDropzone({handleDrop}) {
                     padding: 24px;
                 }
                 
-                .dropzone-box:active p,
-                .dropzone-box.dragging p {
+                .dropzone-box:active:not(.disabled) p,
+                .dropzone-box.dragging:not(.disabled) p {
                     border-color: var(--fcf-pale-blue);
                 }
             `}</style>
