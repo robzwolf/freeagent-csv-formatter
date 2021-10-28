@@ -25,3 +25,17 @@ export function downloadContentsAsCsvFile(csvExport) {
 export function negateAmount(amount) {
     return `${-amount}`;
 }
+
+export function MissingHeaderException(header, row) {
+    this.header = header;
+    this.row = row;
+    this.message = `Row does not have '${header}' key`;
+}
+
+export function checkForHeaders(headers, row) {
+    headers.forEach(header => {
+        if (!row.hasOwnProperty(header)) {
+            throw new MissingHeaderException(header, row);
+        }
+    })
+}

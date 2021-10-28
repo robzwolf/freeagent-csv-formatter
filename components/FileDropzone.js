@@ -1,7 +1,7 @@
 import {useDropzone} from "react-dropzone";
 import {useCallback} from "react";
 
-export function FileDropzone({handleDrop, disabled}) {
+export function FileDropzone({handleDrop, disabled, filename}) {
     const {getRootProps, getInputProps, isDragActive} = useDropzone({
         accept: ".csv",
         disabled: disabled,
@@ -22,11 +22,12 @@ export function FileDropzone({handleDrop, disabled}) {
                 ].join(" ")}
             >
                 <input {...getInputProps()} />
-                {
-                    isDragActive ?
-                        <p>Drop a file here...</p> :
-                        <p>Drag 'n' drop a file here, or click to select files</p>
-                }
+                <p>
+                    {filename ? filename : (isDragActive ?
+                        "Drop a file here..." :
+                        "Drag 'n' drop a file here, or click to select files"
+                    )}
+                </p>
             </div>
             <style jsx>{`
                 .dropzone-box {

@@ -1,11 +1,11 @@
 import Select from "react-select";
 import formatters from "./formatters/formatters";
 
-export default function BankSelector({bank, setBank}) {
+export default function BankSelector({bank, handleBankChange}) {
     const handleChange = (option, type) => {
         console.log("selected bank", option, type);
         if (type.action === "select-option") {
-            setBank(option);
+            handleBankChange(option);
         }
     }
 

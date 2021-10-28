@@ -10,6 +10,7 @@ import BankSelector from "../components/BankSelector";
 
 export default function Home() {
     const [bank, setBank] = useState(null);
+    const [errorMessage, setErrorMessage] = useState("");
     console.log('Home() called and bank is: ', bank);
     const [selectedFile, setSelectedFile] = useState(null);
     const [convertedFile, setConvertedFile] = useState(null);
@@ -21,37 +22,45 @@ export default function Home() {
         if (files.length > 0) {
             const file = files[0];
             setSelectedFile(file);
-            setConvertedFile(null);
             console.log(file, file.name);
-            transformed = [];
-            parseCSV(file);
+            // parseCSV(file);
         }
     }
 
     const parseCSV = (csvFile) => {
         console.log("About to parseCSV(), bank is:", bank);
+        setConvertedFile(null);
+        setErrorMessage("");
+        transformed = [];
         Papa.parse(csvFile, {
-            delimiter: ",",
             header: true,
-            encoding: "ISO-8859-1",
             worker: true,
             complete: parseCallback,
             step: processLines,
+            error: (err, file) => {
+                setErrorMessage("An error occurred during conversion.");
+                console.error(err, file);
+            },
             skipEmptyLines: true
         });
     }
 
-    const processLines = (results) => {
-        console.log(results, results.data);
-
-        console.log("processLines() called, bank:", bank, setBank)
+    const processLines = (results, parser) => {
+        console.log("processLines() called, bank:", bank, setBank);
+        console.log("and in processLines(), results are:", results, results.data);
 
         const formatLine = bank.value;
-        const transformedLine = formatLine(results.data);
+        try {
+            const transformedLine = formatLine(results.data);
 
-        if (transformedLine) {
-            transformed.push(transformedLine);
-            console.log(transformed);
+            if (transformedLine) {
+                transformed.push(transformedLine);
+                console.log(transformed);
+            }
+        } catch (e) {
+            parser.abort();
+            console.error(e);
+            setErrorMessage("An error occurred during conversion. Are you sure you selected the right bank?");
         }
     }
 
@@ -88,15 +97,21 @@ export default function Home() {
                     Welcome to the FreeAgent CSV Formatter!
                 </h1>
 
-                <BankSelector bank={bank} setBank={setBank} />
+                <BankSelector bank={bank} handleBankChange={setBank} />
 
-                <FileDropzone handleDrop={handleDrop} disabled={!bank} />
+                <FileDropzone handleDrop={handleDrop} disabled={!bank} filename={selectedFile ? selectedFile.name : null} />
+
+                <button onClick={() => parseCSV(selectedFile)} disabled={!bank && !selectedFile}>Convert</button>
 
                 <p className="description">
                     {selectedFile ?
                         <span>You selected <code>{selectedFile.name}</code>. {convertedFile ? "Here's what we converted it to:" : ""}</span> :
                         <span>Get started by uploading a file.</span>
                     }
+                </p>
+
+                <p className="description">
+                    {errorMessage}
                 </p>
 
                 {convertedFile ?

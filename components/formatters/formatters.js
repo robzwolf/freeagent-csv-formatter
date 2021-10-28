@@ -1,4 +1,4 @@
-import {freeagentDateFormat, negateAmount, tidyWhitespace} from '../utilities'
+import {checkForHeaders, freeagentDateFormat, negateAmount, tidyWhitespace} from '../utilities'
 import dayjs from 'dayjs'
 
 /*
@@ -10,6 +10,13 @@ import dayjs from 'dayjs'
 
 
 const starling = row => {
+    checkForHeaders([
+        "Counter Party",
+        "Reference",
+        "Type",
+        "Spending Category"
+    ], row);
+
     const formattedCounterParty = tidyWhitespace(row["Counter Party"]);
     const formattedReference = tidyWhitespace(row["Reference"]);
     const formattedType = tidyWhitespace(row["Type"]);
@@ -24,6 +31,12 @@ const starling = row => {
 }
 
 const marcus = row => {
+    checkForHeaders([
+        "TransactionDate",
+        "Value",
+        "Description"
+    ], row);
+
     const formatDate = (rawDateString) => {
         const year = parseInt(rawDateString.substring(0, 4));
         const month = parseInt(rawDateString.substring(4, 6));
@@ -40,6 +53,12 @@ const marcus = row => {
 }
 
 const newday = row => {
+    checkForHeaders([
+        "Date",
+        "Amount(GBP)",
+        "Description"
+    ], row);
+
     // Ignore pending transactions that haven't cleared yet
     if (row["Date"] === "Pending") {
         return null;
