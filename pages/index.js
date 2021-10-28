@@ -29,23 +29,25 @@ export default function Home() {
         setErrorMessage("");
         transformed = [];
 
-        // For now, we assume that all CSV files we parse have headers
+        console.log('bank is', bank);
+
         Papa.parse(csvFile, {
             header: true,
-            worker: true,
+            // worker: true,
             complete: parseCallback,
             step: processLines,
             error: (err, file) => {
                 setErrorMessage("An error occurred during conversion.");
                 console.error(err, file);
             },
-            skipEmptyLines: true
+            skipEmptyLines: true,
+            ...(bank ? bank.value.parserConfigOverride : {})
         });
     }
 
     const processLines = (results, parser) => {
         // Our formatter function
-        const formatLine = bank.value;
+        const formatLine = bank.value.formatter;
 
         try {
             const transformedLine = formatLine(results.data);

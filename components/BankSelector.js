@@ -15,7 +15,7 @@ export default function BankSelector({bank, handleBankChange}) {
                     // menuIsOpen={true} // Uncomment when debugging styles
                     options={[
                         ...Object.keys(formatters).map(key => ({
-                            value: formatters[key].formatter,
+                            value: formatters[key],
                             label: formatters[key].prettyName
                         }))
                     ]}
