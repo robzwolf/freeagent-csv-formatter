@@ -1,8 +1,9 @@
 import Head from 'next/head'
 import Papa from 'papaparse'
 
-import starling from '../components/formatters/starling'
+import {starling, marcus, newday} from '../components/formatters/formatters'
 import {FileDropzone} from "../components/FileDropzone";
+import {downloadContentsAsCsvFile} from '../components/utilities';
 
 
 export default function Home() {
@@ -29,12 +30,16 @@ export default function Home() {
         });
     }
 
-    const processLines = (results, parser) => {
+    const processLines = (results) => {
         console.log(results, results.data);
 
-        const transformedLine = starling(results.data);
-        transformed.push(transformedLine);
-        console.log(transformed);
+        const formatter = newday;
+        const transformedLine = formatter(results.data);
+
+        if (transformedLine) {
+            transformed.push(transformedLine);
+            console.log(transformed);
+        }
     }
 
     const parseCallback = () => {
@@ -45,17 +50,7 @@ export default function Home() {
         });
         console.log(csvExport);
 
-        window.URL = window.webkitURL || window.URL;
-
-        const contentType = 'text/csv';
-        const csvFile = new Blob([csvExport], {type: contentType});
-        const a = document.createElement('a');
-        a.download = 'statement.csv';
-        a.href = window.URL.createObjectURL(csvFile);
-        a.textContent = 'Download CSV';
-        a.dataset.downloadurl = [contentType, a.download, a.href].join(':');
-        document.body.appendChild(a);
-        a.click();
+        downloadContentsAsCsvFile(csvExport);
 
         // window.open(`data:text/csv;charset=utf-8,${csvExport}`)
     }
