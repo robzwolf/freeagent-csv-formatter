@@ -5,7 +5,7 @@ export function FileDropzone({handleDrop}) {
     const {getRootProps, getInputProps, isDragActive} = useDropzone({
         accept: ".csv",
         multiple: false,
-        onDrop: useCallback(handleDrop, [])
+        onDrop: handleDrop
     })
 
     console.log(isDragActive)

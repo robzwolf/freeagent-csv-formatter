@@ -10,12 +10,14 @@ import BankSelector from "../components/BankSelector";
 
 export default function Home() {
     const [bank, setBank] = useState(null);
+    console.log('Home() called and bank is: ', bank);
     const [selectedFile, setSelectedFile] = useState(null);
     const [convertedFile, setConvertedFile] = useState(null);
 
     let transformed = [];
 
     const handleDrop = (files) => {
+        console.log("dropped file, bank:", bank, setBank)
         if (files.length > 0) {
             const file = files[0];
             setSelectedFile(file);
@@ -27,6 +29,7 @@ export default function Home() {
     }
 
     const parseCSV = (csvFile) => {
+        console.log("About to parseCSV(), bank is:", bank);
         Papa.parse(csvFile, {
             delimiter: ",",
             header: true,
@@ -41,8 +44,9 @@ export default function Home() {
     const processLines = (results) => {
         console.log(results, results.data);
 
-        const formatter = starling;
-        const transformedLine = formatter(results.data);
+        console.log("processLines() called, bank:", bank, setBank)
+        const formatLine = bank.value;
+        const transformedLine = formatLine(results.data);
 
         if (transformedLine) {
             transformed.push(transformedLine);
@@ -71,7 +75,7 @@ export default function Home() {
     return (
         <div className="container">
             <Head>
-                <title>Starling2FreeAgent</title>
+                <title>FreeAgent CSV Formatter</title>
                 <link rel="icon" href="/favicon.ico"/>
             </Head>
 

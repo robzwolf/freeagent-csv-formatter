@@ -2,6 +2,13 @@ import Select from "react-select";
 import formatters from "./formatters/formatters";
 
 export default function BankSelector({bank, setBank}) {
+    const handleChange = (option, type) => {
+        console.log("selected bank", option, type);
+        if (type.action === "select-option") {
+            setBank(option);
+        }
+    }
+
     return (
         <>
             <div className="bank-selector">
@@ -32,7 +39,7 @@ export default function BankSelector({bank, setBank}) {
                     }}
                     autoFocus={true}
                     value={bank}
-                    onChange={setBank}
+                    onChange={handleChange}
                     width={500}
                     instanceId="bank"
                     placeholder="Select your bank..."
