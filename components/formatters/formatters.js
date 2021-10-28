@@ -42,7 +42,7 @@ const marcus = row => {
         const month = parseInt(rawDateString.substring(4, 6));
         const day = parseInt(rawDateString.substring(6, 8));
 
-        return dayjs(new Date(year, month, day)).format(freeagentDateFormat);
+        return dayjs(new Date(year, month-1, day)).format(freeagentDateFormat);
     }
 
     return [
