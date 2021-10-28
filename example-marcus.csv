@@ -1,0 +1,3 @@
+"TransactionDate","Description","Value","AccountBalance","AccountName","AccountNumber"
+"20201016","Interest applied","3.75","5010.87"," Marcus Savings","12345678"
+"20200928","Withdrawal to 01234567","-6000.00","5007.12"," Marcus Savings","12345678"

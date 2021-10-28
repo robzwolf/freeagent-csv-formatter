@@ -31,7 +31,8 @@ yarn-error.log*
 
 # Testing CSV files
 *.csv
+# Allow example CSV files
+!example-*.csv
 
 # JetBrains
 .idea/
-
