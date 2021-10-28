@@ -76,9 +76,6 @@ const newdayFormatter = row => {
 }
 
 const coventrybuildingsocietyFormatter = row => {
-
-    console.log('row:', row);
-
     checkForHeaders([
         "Date",
         " Description",

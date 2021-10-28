@@ -29,11 +29,8 @@ export default function Home() {
         setErrorMessage("");
         transformed = [];
 
-        console.log('bank is', bank);
-
         Papa.parse(csvFile, {
             header: true,
-            // worker: true,
             complete: parseCallback,
             step: processLines,
             error: (err, file) => {
