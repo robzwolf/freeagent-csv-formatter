@@ -8,20 +8,6 @@ import {FileDropzone} from "../components/FileDropzone";
 export default function Home() {
     let transformed = [];
 
-    const handleFileInputChange = (e) => {
-        const files = e.target.files;
-
-        console.log(e);
-        console.log(e.target.files);
-
-        if (files.length > 0) {
-            const file = files[0];
-            console.log(file, file.name);
-            transformed = [];
-            parseCSV(file);
-        }
-    }
-
     const handleDrop = (files) => {
         if (files.length > 0) {
             const file = files[0];
