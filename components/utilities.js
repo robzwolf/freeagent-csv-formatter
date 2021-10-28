@@ -23,5 +23,5 @@ export function downloadContentsAsCsvFile(csvExport) {
 }
 
 export function negateAmount(amount) {
-    return -amount;
+    return `${-amount}`;
 }

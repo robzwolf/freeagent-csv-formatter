@@ -23,7 +23,7 @@ export function FileDropzone({handleDrop}) {
             <style jsx>{`
                 .dropzone-box {
                     background: var(--fcf-blue);
-                    width: 360px;
+                    width: min(360px, 100vw);
                     height: 120px;
                     margin: 25px 0;
                     color: white;

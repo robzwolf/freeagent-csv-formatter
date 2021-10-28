@@ -5,6 +5,7 @@ import {starling, marcus, newday} from '../components/formatters/formatters'
 import {FileDropzone} from "../components/FileDropzone";
 import {downloadContentsAsCsvFile} from '../components/utilities';
 import {useState} from "react";
+import StatementTable from "../components/StatementTable";
 
 
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
         if (files.length > 0) {
             const file = files[0];
             setSelectedFile(file);
+            setConvertedFile(null);
             console.log(file, file.name);
             transformed = [];
             parseCSV(file);
@@ -38,7 +40,7 @@ export default function Home() {
     const processLines = (results) => {
         console.log(results, results.data);
 
-        const formatter = newday;
+        const formatter = starling;
         const transformedLine = formatter(results.data);
 
         if (transformedLine) {
@@ -81,10 +83,15 @@ export default function Home() {
 
                 <p className="description">
                     {selectedFile ?
-                        <span>You selected <code>{selectedFile.name}</code>.</span> :
+                        <span>You selected <code>{selectedFile.name}</code>. {convertedFile ? "Here's what we converted it to:" : ""}</span> :
                         <span>Get started by uploading a file.</span>
                     }
                 </p>
+
+                {convertedFile ?
+                    <StatementTable statementData={convertedFile} />
+                    : null
+                }
 
             </main>
 
@@ -125,8 +132,7 @@ export default function Home() {
                     border-radius: 5px;
                     padding: 0.75rem;
                     font-size: 1.1rem;
-                    font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-                    DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
+                    font-family: var(--fcf-code-font);
                 }
 
                 footer {
@@ -180,6 +186,8 @@ export default function Home() {
                     --fcf-light-blue: #24b5ee;
                     --fcf-bright-blue: #45cbff;
                     --fcf-pale-blue: #c6e8fd;
+                    
+                    --fcf-code-font: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
                 }
 
                 * {
