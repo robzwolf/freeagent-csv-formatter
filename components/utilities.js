@@ -1,3 +1,7 @@
-export function format(string) {
-    return string.trim().replace(/\s\s+/g, ' ');
+export function format(data) {
+    if (typeof data === "undefined" || !data) {
+        return "";
+    }
+
+    return data.trim().replace(/\s\s+/g, ' ');
 }

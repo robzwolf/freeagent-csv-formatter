@@ -2,6 +2,8 @@ import Head from 'next/head'
 import Papa from 'papaparse'
 
 import starling from '../components/formatters/starling'
+import {FileDropzone} from "../components/FileDropzone";
+
 
 export default function Home() {
     let transformed = [];
@@ -12,6 +14,15 @@ export default function Home() {
         console.log(e);
         console.log(e.target.files);
 
+        if (files.length > 0) {
+            const file = files[0];
+            console.log(file, file.name);
+            transformed = [];
+            parseCSV(file);
+        }
+    }
+
+    const handleDrop = (files) => {
         if (files.length > 0) {
             const file = files[0];
             console.log(file, file.name);
@@ -83,6 +94,8 @@ export default function Home() {
                            onInput={handleFileInputChange}
                     />
                 </div>
+
+                <FileDropzone handleDrop={handleDrop} />
 
                 <p className="description">
                     Get started by editing <code>pages/index.js</code>
