@@ -32,7 +32,8 @@ export function FileDropzone({handleDrop}) {
                     transition: all 0.1s;
                 }
                 
-                .dropzone-box:hover {
+                .dropzone-box:hover,
+                .dropzone-box:focus {
                     background: var(--fcf-light-blue);
                 }
                 

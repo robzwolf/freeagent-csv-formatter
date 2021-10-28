@@ -1,14 +1,15 @@
 import Head from 'next/head'
 import Papa from 'papaparse'
 
-import {starling, marcus, newday} from '../components/formatters/formatters'
 import {FileDropzone} from "../components/FileDropzone";
 import {downloadContentsAsCsvFile} from '../components/utilities';
 import {useState} from "react";
 import StatementTable from "../components/StatementTable";
+import BankSelector from "../components/BankSelector";
 
 
 export default function Home() {
+    const [bank, setBank] = useState(null);
     const [selectedFile, setSelectedFile] = useState(null);
     const [convertedFile, setConvertedFile] = useState(null);
 
@@ -79,7 +80,9 @@ export default function Home() {
                     Welcome to the FreeAgent CSV Formatter!
                 </h1>
 
-                <FileDropzone handleDrop={handleDrop} />
+                <BankSelector bank={bank} setBank={setBank} />
+
+                <FileDropzone handleDrop={handleDrop}/>
 
                 <p className="description">
                     {selectedFile ?
@@ -126,7 +129,7 @@ export default function Home() {
                     justify-content: center;
                     align-items: center;
                 }
-                
+
                 code {
                     background: #fafafa;
                     border-radius: 5px;
@@ -143,17 +146,17 @@ export default function Home() {
                     justify-content: center;
                     align-items: center;
                 }
-                
+
                 footer a {
                     color: var(--fcf-blue);
                 }
-                
+
                 footer a:hover {
                     text-decoration: none;
                 }
 
                 .title {
-                    margin: 0;
+                    margin: 0 0 24px 0;
                     line-height: 1.15;
                     font-size: 4rem;
                 }
@@ -178,7 +181,7 @@ export default function Home() {
                     Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
                     sans-serif;
                 }
-                
+
                 body {
                     --fcf-very-dark-blue: #0c4f77;
                     --fcf-dark-blue: #1f82bd;
@@ -186,7 +189,7 @@ export default function Home() {
                     --fcf-light-blue: #24b5ee;
                     --fcf-bright-blue: #45cbff;
                     --fcf-pale-blue: #c6e8fd;
-                    
+
                     --fcf-code-font: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
                 }
 

@@ -1,7 +1,15 @@
 import {freeagentDateFormat, negateAmount, tidyWhitespace} from '../utilities'
 import dayjs from 'dayjs'
 
-export function starling(row) {
+/*
+ * ********************************************************************************
+ * IMPORTANT: If you add any new formatters, append them to the 'formatters' object
+ * at the end of this file
+ * ********************************************************************************
+ */
+
+
+const starling = row => {
     const formattedCounterParty = tidyWhitespace(row["Counter Party"]);
     const formattedReference = tidyWhitespace(row["Reference"]);
     const formattedType = tidyWhitespace(row["Type"]);
@@ -15,7 +23,7 @@ export function starling(row) {
     ];
 }
 
-export function marcus(row) {
+const marcus = row => {
     const formatDate = (rawDateString) => {
         const year = parseInt(rawDateString.substring(0, 4));
         const month = parseInt(rawDateString.substring(4, 6));
@@ -31,7 +39,7 @@ export function marcus(row) {
     ]
 }
 
-export function newday(row) {
+const newday = row => {
     // Ignore pending transactions that haven't cleared yet
     if (row["Date"] === "Pending") {
         return null;
@@ -47,3 +55,18 @@ export function newday(row) {
         row["Description"]
     ]
 }
+
+
+/*
+ * ****************************************************
+ * IMPORTANT: Add new formatters above this comment
+ * then add a new item to the 'formatters' object below
+ * ****************************************************
+ */
+
+const formatters = {
+    starling: { prettyName: "Starling Bank", formatter: starling },
+    marcus: { prettyName: "Marcus by Goldman Sachs", formatter: marcus },
+    newday: { prettyName: "NewDay", formatter: newday }
+};
+export default formatters;
