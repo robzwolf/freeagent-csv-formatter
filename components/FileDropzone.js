@@ -22,24 +22,24 @@ export function FileDropzone({handleDrop}) {
             </div>
             <style jsx>{`
                 .dropzone-box {
-                    background: #0ea7e3;
+                    background: var(--fcf-blue);
                     width: 360px;
                     height: 120px;
                     margin: 25px 0;
                     color: white;
                     cursor: pointer;
-                    border: 3px solid #1f82bd;
+                    border: 3px solid var(--fcf-dark-blue);
                     transition: all 0.1s;
                 }
                 
                 .dropzone-box:hover {
-                    background: #24b5ee;
+                    background: var(--fcf-light-blue);
                 }
                 
                 .dropzone-box:active,
                 .dropzone-box.dragging {
-                    background: #45cbff;
-                    border-color: #c6e8fd;
+                    background: var(--fcf-bright-blue);
+                    border-color: var(--fcf-pale-blue);
                 }
                 
                 .dropzone-box p {
@@ -51,13 +51,13 @@ export function FileDropzone({handleDrop}) {
                     text-align: center;
                     place-items: center;
                     place-content: center;
-                    border: 5px dashed #0c4f77;
+                    border: 5px dashed var(--fcf-very-dark-blue);
                     padding: 24px;
                 }
                 
                 .dropzone-box:active p,
                 .dropzone-box.dragging p {
-                    border-color: #c6e8fd;
+                    border-color: var(--fcf-pale-blue);
                 }
             `}</style>
         </>
