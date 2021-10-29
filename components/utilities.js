@@ -17,7 +17,6 @@ export function downloadContentsAsCsvFile(csvExport) {
     a.download = 'statement.csv';
     a.href = window.URL.createObjectURL(csvFile);
     a.dataset.downloadurl = [contentType, a.download, a.href].join(':');
-    // document.body.appendChild(a);
     a.click();
 }
 
