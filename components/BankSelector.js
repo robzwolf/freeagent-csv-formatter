@@ -14,9 +14,9 @@ export default function BankSelector({bank, handleBankChange}) {
                 <Select
                     // menuIsOpen={true} // Uncomment when debugging styles
                     options={[
-                        ...Object.keys(formatters).map(key => ({
-                            value: formatters[key],
-                            label: formatters[key].prettyName
+                        ...formatters.map(formatter => ({
+                            value: formatter,
+                            label: formatter.prettyName
                         }))
                     ]}
                     styles={{
