@@ -153,6 +153,12 @@ export default function Home() {
                     font-size: 1.1rem;
                     font-family: var(--fcf-code-font);
                 }
+                
+                button {
+                    width: 160px;
+                    font-size: 26px;
+                    padding: 8px;
+                }
 
                 footer {
                     width: 100%;
