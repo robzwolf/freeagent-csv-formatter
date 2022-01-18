@@ -4,6 +4,7 @@ import starling from "./starling";
 import marcus from "./marcus";
 import newday from "./newday";
 import coventrybuildingsociety from "./coventrybuildingsociety";
+import tfloyster from "./tfloyster";
 
 
 /*
@@ -17,7 +18,8 @@ const formatters = [
     coventrybuildingsociety,
     marcus,
     newday,
-    starling
+    starling,
+    tfloyster
 ];
 
 export default formatters;
