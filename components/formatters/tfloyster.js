@@ -19,7 +19,16 @@ const tfloyster = {
         ], row);
 
         const formatDate = (rawDateString) => {
-            return dayjs(rawDateString, "DD-MMM-YY").format(freeagentDateFormat);
+            // Sometimes the year is formatted YY, sometimes it is formatted YYYY
+            let format;
+
+            if (rawDateString.length === 9) {
+                format = "DD-MMM-YY";
+            } else {
+                format = "DD-MMM-YYYY";
+            }
+            
+            return dayjs(rawDateString, format).format(freeagentDateFormat);
         }
 
         const formatTime = (start, end) => {
