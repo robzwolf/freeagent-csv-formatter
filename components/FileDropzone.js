@@ -67,7 +67,7 @@ export function FileDropzone({handleDrop, disabled, filename}) {
                     place-content: center;
                     border: 5px dashed var(--fcf-very-dark-blue);
                     padding: 24px;
-                    word-break: break-all;
+                    word-break: break-word;
                 }
                 
                 .dropzone-box:active:not(.disabled) p,
